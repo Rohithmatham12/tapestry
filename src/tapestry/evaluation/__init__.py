@@ -21,10 +21,10 @@ from tapestry.evaluation.plan import (
 )
 
 __all__ = [
+    "DEFAULT_M1_REQUIRED_KINDS",
     "BenchmarkConfig",
     "BenchmarkKind",
     "BenchmarkSpec",
-    "DEFAULT_M1_REQUIRED_KINDS",
     "EvaluationBundle",
     "EvaluationGate",
     "EvaluationPlan",

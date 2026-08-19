@@ -17,6 +17,7 @@ class CommunicationPlanTest(unittest.TestCase):
     """M1 communication-readiness checks."""
 
     def test_flower_style_hub_and_spoke_plan_is_m1_ready(self) -> None:
+        """A managed hub-and-spoke transport plan has no readiness findings."""
         plan = CommunicationPlan(
             topology=CommunicationTopology.HUB_AND_SPOKE,
             protocol=TransportProtocol.GRPC_HTTP2,
@@ -32,6 +33,7 @@ class CommunicationPlanTest(unittest.TestCase):
         self.assertTrue(plan.is_m1_ready)
 
     def test_missing_auth_and_outbound_participation_are_blockers(self) -> None:
+        """Missing outbound participation and authentication are blockers."""
         plan = CommunicationPlan(
             topology=CommunicationTopology.HUB_AND_SPOKE,
             protocol=TransportProtocol.GRPC_HTTP2,
@@ -53,6 +55,7 @@ class CommunicationPlanTest(unittest.TestCase):
         self.assertTrue(all(finding.severity is CommunicationSeverity.BLOCKER for finding in findings))
 
     def test_peer_to_peer_without_operational_controls_warns(self) -> None:
+        """Peer-to-peer plans without operational controls stay warnings-only."""
         plan = CommunicationPlan(
             topology=CommunicationTopology.PEER_TO_PEER,
             protocol=TransportProtocol.CUSTOM,

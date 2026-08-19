@@ -12,7 +12,6 @@ from dataclasses import dataclass
 
 from tapestry.evaluation.gates import BenchmarkKind, BenchmarkSpec, EvaluationGate
 
-
 DEFAULT_M1_REQUIRED_KINDS: tuple[BenchmarkKind, ...] = (
     BenchmarkKind.CAPABILITY,
     BenchmarkKind.CULTURAL_ALIGNMENT,
@@ -47,7 +46,11 @@ class EvaluationPlan:
         if not self.specs:
             raise ValueError("EvaluationPlan requires at least one benchmark spec")
         object.__setattr__(self, "specs", tuple(self.specs))
-        object.__setattr__(self, "required_kinds", tuple(BenchmarkKind(kind) for kind in self.required_kinds))
+        object.__setattr__(
+            self,
+            "required_kinds",
+            tuple(BenchmarkKind(kind) for kind in self.required_kinds),
+        )
 
     @property
     def covered_required_kinds(self) -> frozenset[BenchmarkKind]:
@@ -82,5 +85,6 @@ def required_kind_summary(specs: Iterable[BenchmarkSpec]) -> dict[str, int]:
     for spec in specs:
         if not spec.required:
             continue
-        counts[spec.kind.value] = counts.get(spec.kind.value, 0) + 1
+        kind = BenchmarkKind(spec.kind)
+        counts[kind.value] = counts.get(kind.value, 0) + 1
     return counts

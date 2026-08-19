@@ -39,6 +39,7 @@ class CommunicationFinding:
 
 
 @dataclass(frozen=True)
+# pylint: disable=too-many-instance-attributes
 class CommunicationPlan:
     """A small, implementation-neutral description of M1 node communication."""
 

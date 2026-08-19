@@ -33,6 +33,7 @@ class EvaluationPlanTest(unittest.TestCase):
     """Coverage behavior for M1 evaluation planning."""
 
     def test_plan_is_ready_when_required_m1_axes_are_present(self) -> None:
+        """A plan is ready when capability, alignment, and safety are covered."""
         plan = EvaluationPlan(
             (
                 _spec("capability-core", BenchmarkKind.CAPABILITY),
@@ -49,6 +50,7 @@ class EvaluationPlanTest(unittest.TestCase):
         self.assertIn("capability-core", plan.gate().specs)
 
     def test_plan_reports_missing_required_axes(self) -> None:
+        """Missing required benchmark axes are reported as findings."""
         plan = EvaluationPlan((_spec("capability-core", BenchmarkKind.CAPABILITY),))
 
         decision = plan.check_coverage()
@@ -60,6 +62,7 @@ class EvaluationPlanTest(unittest.TestCase):
         )
 
     def test_required_kind_summary_ignores_optional_specs(self) -> None:
+        """Optional benchmarks are omitted from required-kind summaries."""
         summary = required_kind_summary(
             (
                 _spec("capability-core", BenchmarkKind.CAPABILITY),

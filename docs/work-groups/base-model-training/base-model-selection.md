@@ -164,22 +164,21 @@ Key for icons:
 | GPT OSS   | ✅ | ✅ | ❌ Limited size choices | ⚠️ Larger models not in this family are proprietary | Will OpenAI keep releasing open-weight versions of GPT OSS? | ✅ | **?** | Excellent performance. Is GPT OSS a "one-shot" release or a longer-term strategy? |
 | Granite   | ✅ | ✅ | ⚠️ Smaller sizes currently | ✅ | ✅ | ⚠️ Larger sizes not available, but coming | **?** | Built by IBM - Good performance and strong data governance, with active development continuing. |
 | K2        | ✅ | ✅ | ✅ | **?** | ✅ | **?** | **?** | Built by MBZUI. Strong on Middle East languages. Future development plans are TBD. |
-| Llama/Muse<a href="#note-1"><sup>1</sup></a> | ✅ | ⚠️ Some limitations on use | ✅ | ⚠️ Largest Llama4 models not OW. Plans for the [new Muse family](https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model) are TBD. | ⚠️ Meta stopped developing Llama, but recently started providing open-weight _Muse_ models. | ✅ | ✅<a href="#note-1"><sup>1</sup></a> - See [here](#feasibility-study-on-cultural-alignment-shift) | Very familiar and widely used, but Muse's future is TBD. |
+| Llama/Muse<a href="#note-2"><sup>2</sup></a> | ✅ | ⚠️ Some limitations on use | ✅ | ⚠️ Largest Llama4 models not OW. Plans for the [new Muse family](https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model) are TBD. | ⚠️ Meta stopped developing Llama, but recently started providing open-weight _Muse_ models. | ✅ | ✅<a href="#note-3"><sup>3</sup></a> - See [here](#feasibility-study-on-cultural-alignment-shift) | Very familiar and widely used, but Muse's future is TBD. |
 | Mistral   | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | **?** | Built in the EU with strong EU alignment. |
 | Nemotron  | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | **?** | Built by NVIDIA. Excellent performance and variety, but can they only be used on NVIDIA hardware? (TBD) |
 | Olmo      | ✅ | ✅ | ⚠️ Smaller model sizes only | ✅ | ⚠️ Turnover at Ai2 makes the future of Olmo unclear | ✅ | **?** | A state-of-the-art research model family, among the most open and transparent available. See in particular [FlexOlmo](https://huggingface.co/allenai/FlexOlmo-7x7B-1T), which has data management features relevant to our needs. However, is the Olmo family otherwise suitable for production use and Tapestry requirements, and will Ai2 continue active development? Even if not, it might be a very good starting point for our own models that are built from scratch. |
 | Qwen      | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | **?** | Built by Alibaba in China; possible geopolitical concerns. |
 
-<a id="note-1">
-
-> [!NOTE]
-> 1. When only large-size models are listed as available, often third-party quantized and distilled variants are available, too.
-> 2. Meta has discontinued the LLama model family, but it has been replaced with the recently-announced Muse family.
-> 3. So far, we have only tested alignment for Llama3 (see [below](#feasibility-study-on-cultural-alignment-shift)). We don't know of any limitations for the other model candidates listed. However, in general, MoE models are more complicated to post-train than dense models.
+1. <a id="note-1">When only large-size models are listed as available, often third-party quantized and distilled variants are available, too.
+2. <a id="note-2"> Meta has discontinued the LLama model family, but it has been replaced with the recently-announced Muse family.
+3. <a id="note-3"> So far, we have only tested alignment for Llama3 (see [below](#feasibility-study-on-cultural-alignment-shift)). We don't know of any limitations for the other model candidates listed. However, in general, MoE models are more complicated to post-train than dense models.
 
 ### Milestone Zero (M0) Model Choice
 
-For M0, [issue #115](https://github.com/The-AI-Alliance/tapestry/issues/115), the [Kilo AI model list](https://kilo.ai/open-source-models#best-models-ranked) (June 2026), and other community sources were used. The following criteria were emphasized:
+For reference, here we capture the model choice criteria and analysis that was performed for M0 (with some minor updates), as part of [issue #115](https://github.com/The-AI-Alliance/tapestry/issues/115). M0 did not have exactly the same criteria, nor did it weight criteria the same was as the long-term choice discussed in this document and covered by [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25). For example, a wide range of model sizes was not important for M0.
+
+The [Kilo AI model list](https://kilo.ai/open-source-models#best-models-ranked) (June 2026), and other community sources were used. The following criteria were emphasized:
 
 1. **Well-known, well-characterized, reasonably well-adopted** — not obscure; has community usage, papers, third-party CPT examples, etc.
 2. **Multi-size family** — multiple checkpoints (1B/3B/7B/8B etc.) so nodes with different resource envelopes can participate; as much of data pipeline, training code, and stack open-sourced as possible.
@@ -218,10 +217,9 @@ The best candidates have these properties:
 
 | Model Family | Sizes | Best POC Size | Lab | License | Code Open? | Data Open? | Gap |
 | :---| :---| :---| :---| :---| :---| :---| :---|
-| **Gemma 2** | 2B, 9B, 27B | 2B or 9B | Google DeepMind | Gemma Terms | ❌ No | ❌ No | Custom license — verify CPT/redistribution rights. Training stack not open. |
+| **Gemma 4** | E2B, E4B, 12B, 26B, 31B | E2B or E4B | Google DeepMind | Apache 2.0 | ❌ No | ❌ No | Training stack and data set not open. |
 | **Nemotron (Nano/Super)** | 8B, 120B | 8B Nano | NVIDIA | NVIDIA Nemotron Open | ❌ No | ❌ No | Hybrid Mamba arch may complicate CPT tooling. Custom license — verify. |
 | **SmolLM2** | 135M, 360M, 1.7B | 1.7B | HuggingFace | Apache 2.0 | ✅ Yes | ✅ Yes | All sizes sub-2B — below useful minimum per criterion 3. Hello-world iteration only. |
-
 
 ### ❌ Filtered out
 
@@ -312,6 +310,4 @@ Ihle also examines Chinese open-weight models alone and finds that they lagged m
 
 ## Appendix 5: Regulatory Exposure
 
-Several leading open-weight candidates come from organizations under US restrictions. Zhipu/GLM is on the US BIS Entity List and Alibaba/Qwen on the 1260H DoD list. In addition, The Chinese government is reportedly weighing export limits on its own models. Also, the new research security policy of the US government's National Science Foundation (NSF) is suggesting there may be further restrictions imposed.
-
-Given Tapestry's mission to support global use models with frontier capabilities, which of course includes the US, these factors favor open base models from certain jurisdictions over others, e.g., OLMo, Granite, Apertus, Llama, etc.
+Some organizations that produce open-weight models may be under under US or other international regulatory restrictions. Given Tapestry's mission to support global use of open-weight models, care is required to avoid models with such associations.

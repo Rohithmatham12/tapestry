@@ -67,10 +67,7 @@ Organizations may also need to determine what data is _unwanted_, such as illega
 
 In addition, a few good sources to cross-reference definitions and categories include the Trust and Safety Professional Association's (TSPA) [abuse types page](https://www.tspa.org/curriculum/ts-fundamentals/policy/abuse-types/). CSE detection, for example, may have different degrees of feasibility depending on if it is text or multimodal. (Not a legal opinion...) "Grooming" text is not necessarily treated the same way as CSAM media and thus may be somewhat easier to detect without having to get licenses to access databases of known CSAM hashes. (Source: @julietshen)
 
-> [!NOTE]
-> While this is a requirements document, here are a few example tools, for reference purposes. (Tool decisions are left to the data engineering team...):
-> * [ThreatExchange](https://github.com/facebook/ThreatExchange/) - a Facebook enforcement tool set, including a [hash matcher](https://github.com/facebook/ThreatExchange/tree/main/hasher-matcher-actioner) that makes it easier to match data against known illegal content.
-> * [Social Intel](https://www.socialintel.io/) - a toolkit that address a practical gap, where some unwanted data may only be detectable at the content level, but social media datasets also need engagement-based signals — bot likelihood, author verification, cross-platform de-duplication, etc. to catch adversarial content that looks clean in isolation. Social Intel scores every posts across 25 quality checks before delivery, including bot detection, toxicity scoring, and PII filtering. This filtering can run upstream, so the dataset ships clean rather than requiring downstream filtering. (Source: @hexsyro)
+See also the [Appendix](#appendix).
 
 ## Requirements (Draft)
 
@@ -91,3 +88,10 @@ Most of these requirements require further details to be defined.
 | DG:8  | Integrate with policy and release-gate checks. | Data-use constraints should be enforceable by downstream training, evaluation, and certification workflows. |
 | DG:9  | Preserve change history for datasets, metadata, processing jobs, and approvals. | Reviewers need to know which version of a dataset supported a model or claim. |
 | DG:10 | Use portable schemas and interfaces. | Tapestry should avoid forcing all participants into one storage or catalog system. |
+
+## Appendix
+
+While this is a requirements document, here are a few example tools for reference purposes. Tool decisions are left to the data engineering team.
+
+* [ThreatExchange](https://github.com/facebook/ThreatExchange/) - a Facebook enforcement tool set, including a [hash matcher](https://github.com/facebook/ThreatExchange/tree/main/hasher-matcher-actioner) that makes it easier to match data against known illegal content.
+* [Social Intel](https://www.socialintel.io/) - a toolkit that address a practical gap, where some unwanted data may only be detectable at the content level, but social media datasets also need engagement-based signals — bot likelihood, author verification, cross-platform de-duplication, etc. to catch adversarial content that looks clean in isolation. Social Intel scores every posts across 25 quality checks before delivery, including bot detection, toxicity scoring, and PII filtering. This filtering can run upstream, so the dataset ships clean rather than requiring downstream filtering. (Source: @hexsyro)

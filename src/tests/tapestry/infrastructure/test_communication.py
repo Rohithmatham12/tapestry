@@ -16,7 +16,7 @@ from tapestry.infrastructure import (
 class CommunicationPlanTest(unittest.TestCase):
     """M1 communication-readiness checks."""
 
-    def test_flower_style_hub_and_spoke_plan_is_m1_ready(self) -> None:
+    def test_flower_style_hub_and_spoke_plan_has_no_blockers(self) -> None:
         """A managed hub-and-spoke transport plan has no readiness findings."""
         plan = CommunicationPlan(
             topology=CommunicationTopology.HUB_AND_SPOKE,
@@ -30,7 +30,7 @@ class CommunicationPlanTest(unittest.TestCase):
         )
 
         self.assertEqual(assess_communication_plan(plan), ())
-        self.assertTrue(plan.is_m1_ready)
+        self.assertTrue(plan.has_no_blockers)
 
     def test_missing_auth_and_outbound_participation_are_blockers(self) -> None:
         """Missing outbound participation and authentication are blockers."""
@@ -47,7 +47,7 @@ class CommunicationPlanTest(unittest.TestCase):
 
         findings = assess_communication_plan(plan)
 
-        self.assertFalse(plan.is_m1_ready)
+        self.assertFalse(plan.has_no_blockers)
         self.assertEqual(
             [finding.requirement_id for finding in findings],
             ["COMM-EGRESS", "COMM-AUTH"],
@@ -68,7 +68,7 @@ class CommunicationPlanTest(unittest.TestCase):
 
         findings = assess_communication_plan(plan)
 
-        self.assertTrue(plan.is_m1_ready)
+        self.assertTrue(plan.has_no_blockers)
         self.assertEqual(
             [finding.requirement_id for finding in findings],
             [

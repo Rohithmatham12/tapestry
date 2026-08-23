@@ -61,8 +61,8 @@ class CommunicationPlan:
         object.__setattr__(self, "notes", tuple(self.notes))
 
     @property
-    def is_m1_ready(self) -> bool:
-        """Return whether the plan has no blocking findings."""
+    def has_no_blockers(self) -> bool:
+        """Return whether assessment found no blocking issues."""
         return not any(finding.severity is CommunicationSeverity.BLOCKER for finding in assess_communication_plan(self))
 
 

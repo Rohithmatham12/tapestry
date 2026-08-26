@@ -5,7 +5,7 @@
 | Status      | Proposed        |
 | Confidence  | High (5/5)      |
 | Created     | July 09, 2026   |
-| Last Update | August 23, 2026 |
+| Last Update | August 28, 2026 |
 
 ## Purpose
 
@@ -178,15 +178,16 @@ Key for icons:
 
 ### Milestone Zero (M0) Model Choice
 
-For reference, here we capture the model choice criteria and analysis that was performed for M0 (with some minor updates), as part of [issue #115](https://github.com/The-AI-Alliance/tapestry/issues/115). M0 did not have exactly the same criteria, nor did it weight criteria the same was as the long-term choice discussed in this document and covered by [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25). For example, a wide range of model sizes was not important for M0.
+For reference (and to retain previous investigative work), here we capture the model choice criteria and analysis that was performed for M0, [issue #115](https://github.com/The-AI-Alliance/tapestry/issues/115) (with some minor updates to the content). M0 did not have exactly the same criteria as the long-term choice criteria discussed above for [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25). For example, a wide range of model sizes was not important for M0; only a small model was needed.
 
-The [Kilo AI model list](https://kilo.ai/open-source-models#best-models-ranked) (June 2026), and other community sources were used. The following criteria were emphasized:
+The [Kilo AI model list](https://kilo.ai/open-source-models#best-models-ranked) (June 2026), and other community sources were used for information. The following criteria were emphasized:
 
 1. **Well-known, well-characterized, reasonably well-adopted** — not obscure; has community usage, papers, third-party CPT examples, etc.
-2. **Multi-size family** — multiple checkpoints (1B/3B/7B/8B etc.) so nodes with different resource envelopes can participate; as much of data pipeline, training code, and stack open-sourced as possible.
-3. **Size: 1B–10B params** — below 1B is sub-minimum for meaningful CPT experiments; above 10B pushes POC resource cost without adding POC validity.
+2. **Multi-size family** — multiple sizes (especially in the 1B-10B parameter range), so nodes with different resource envelopes can participate.
+3. **Open Source** - As much of the data pipeline, training code, and stack open-sourced as possible.
+3. **Size: 1B–10B params** — below 1B is sub-optimal for meaningful CPT experiments; above 10B pushes POC resource costs without adding to the POC validity.
 
-The best candidates have these properties:
+The best candidates identified had these properties:
 
 | Model Family | Sizes | Best POC Size | Lab | License | Code Open? | Data Open? | Pipeline Open? | Community CPT? |
 |---|---|---|---|---|---|---|---|---|
@@ -203,7 +204,7 @@ The best candidates have these properties:
 > 1. **Qwen 2.5** — Apache 2.0; widest size range; strongest multilingual baseline for non-English sovereign nodes.
 > 1. **Mistral 7B** — Single size (weak on criterion 2), but enormous CPT literature makes it easy to find published baselines and community help.
 
-### ✅ Recommended — Pass all three criteria
+#### ✅ Recommended — Pass all three criteria
 
 | Priority | Family | POC Size | Key Reason |
 | :--- | :--- | :--- | :--- |
@@ -215,7 +216,7 @@ The best candidates have these properties:
 > [!NOTE]
 > Given the sovereign AI requirement of diverse cultural mapping capability, Qwen 2.5 should be given special consideration.
 
-### ⚠️ Conditional — Weak on criterion 2 (openness or multi-size)
+#### ⚠️ Conditional — Weak on criterion 2 (openness or multi-size)
 
 | Model Family | Sizes | Best POC Size | Lab | License | Code Open? | Data Open? | Gap |
 | :---| :---| :---| :---| :---| :---| :---| :---|
@@ -223,7 +224,7 @@ The best candidates have these properties:
 | **Nemotron (Nano/Super)** | 8B, 120B | 8B Nano | NVIDIA | NVIDIA Nemotron Open | ❌ No | ❌ No | Hybrid Mamba arch may complicate CPT tooling. Custom license — verify. |
 | **SmolLM2** | 135M, 360M, 1.7B | 1.7B | HuggingFace | Apache 2.0 | ✅ Yes | ✅ Yes | All sizes sub-2B — below useful minimum per criterion 3. Hello-world iteration only. |
 
-### ❌ Filtered out
+#### ❌ Filtered out
 
 | Model | Reason |
 | :---- | :----- |
@@ -237,11 +238,11 @@ The best candidates have these properties:
 ## Feasibility Study on Cultural Alignment Shift
 
 [Issue #22: PoC for alignment based on Inglehart-Welzel Cultural Map](https://github.com/The-AI-Alliance/tapestry/issues/22), part of 
-[TAP-003: Cultural Alignment as the Primary Differentiator](../../architecture/decisions/adr-003-cultural-alignment.md), is using the `Llama-3.2-3B-Instruct` model for its experiments, with the goal of producing a feasibility study paper that demonstrates simultaneous (a) socio-cultural alignment shift and (b) no performance (e.g., MMLU) shift. They chose Llama simply because it is available and is simple to post-train, due to its permissive license, it is a dense model (not MoE - mixture of experts), etc.
+[TAP-003: Cultural Alignment as the Primary Differentiator](../../architecture/decisions/adr-003-cultural-alignment.md), used the `Llama-3.2-3B-Instruct` model for its experiments, with the goal of producing a feasibility study paper that demonstrated simultaneous (a) socio-cultural alignment shift and (b) no performance loss in general capabilities (e.g., as measured by benchmarks like MMLU (see below). The team chose Llama because it is available and is simple to post-train, due to its permissive license and the fact it is a dense model (not MoE - mixture of experts - which is a harder architecture to tune), etc.
 
-More generally, we want to iterate on the model choice based on what gives us the lowest resistance path towards the strategic objectives of (a) high/leading performance while (b) affording sovereignty (national, socio-cultural, industrial). Medium-term, we aim to perform CPT (continued pre-training) and ultimately PT from scratch.
+More generally, the longer-term model choice will be based in part on which options give us the lowest resistance path towards the strategic objectives of (a) high/leading performance while (b) affording sovereignty (national, socio-cultural, industrial). Medium-term, we aim to perform CPT (continued pre-training) and ultimately PT of models from scratch.
 
-Here are some [interesting preliminary results](../../../contrib/nguyennm1024-sociocultural-alignment/) (as of June 2026) from work performed by [@nguyennm1024](https://github.com/nguyennm1024), which used a capability-rehearsal corpus to limit catastrophic forgetting, with the culturally-aligned and rehearsal members fused via weight-space averaging (50/50). Cultural position was measured via the Inglehart-Welzel projection method (Tao, Y. et al., 2024) and capability was measured using MMLU (Hendrycks, D. et al. (2021). *Measuring Massive Multitask Language Understanding*).
+Here are some [interesting preliminary results](../../../contrib/nguyennm1024-sociocultural-alignment/) (as of June 2026) from work performed by [@nguyennm1024](https://github.com/nguyennm1024), which used a capability-rehearsal corpus to limit catastrophic forgetting, with the culturally-aligned and rehearsal members fused via weight-space averaging (50/50). Cultural position was measured via the Inglehart-Welzel projection method (Tao, Y. et al., *Cultural Bias and Cultural Alignment of Large Language Models*, 2024, [arxiv](https://arxiv.org/abs/2311.14096v2)) and capability was measured using MMLU (Hendrycks, D. et al., *Measuring Massive Multitask Language Understanding*, 2021, [arxiv](https://arxiv.org/abs/2009.03300)).
 
 Here are preliminary tuning results showing a 26% improvement:
 
@@ -253,27 +254,26 @@ Here is the final, different representation at the end of the tuning experiment 
 
 | Model | Distance to Vietnam (Inglehart-Welzel) | Capability (full MMLU, n=14,042, zero-shot) |
 | :---- | :-------------------------------------- | :------------------------------------------- |
-| Base | 2.46 | 63.2% |
+| Base  | 2.46 | 63.2% |
 | Tuned | 1.35 - 45% closer | 62.4% (not statistically significant, McNemar p ≈ 0.07) |
 
 The non-significance finding is a direct quote from the [Preliminary results](../../../contrib/nguyennm1024-sociocultural-alignment/README.md#preliminary-results) section of the README. One model, one culture, staging-quality code — but a positive directional result on the axis [TAP-003](../../architecture/decisions/adr-003-cultural-alignment.md) identified as the differentiator: a measurable cultural shift with no significant capability drop.
-
-The figure and numbers in `base-model-selection.md` [1] for this same experiment (26% closer, 0.52 → 0.38) do not match the source repository's own reported numbers [3], used here. The two appear to be different snapshots of an evolving experiment; the contrib README [3] is the versioned, authoritative source and is used in preference to the work-group doc's figure.
 
 ## Appendix 1: Performance Reference (R4)
 
 The performance data is sourced from the [Onyx Open Source LLM Leaderboard](https://onyx.app/open-llm-leaderboard). [R4](#bms-r4-performance-is-competitive "BMS-R4: Performance Is Competitive") asks only for "competitive," not best-in-class.
 
 | Model Family (variant) | MMLU-Pro | GPQA-D | SWE-bench V. |
-| :--------------- | :------- | :----- | :----------- |
-| Qwen 3.5 | 87.8 | 88.4 | 76.4 |
-| GLM-5 | 70.4 | 86.0 | 77.8 |
-| DeepSeek V3.2 | 85.0 | 79.9 | 67.8 |
-| GPT-oss 120B | 90.0 | 80.9 | 62.4 |
-| Nemotron Super | 79.5 | 72.0 | — |
-| Llama 4 Maverick | 80.5 | 69.8 | — |
+| :--------------------- | -------: | -----: | -----------: |
+| Qwen 3.5               |     87.8 |   88.4 |         76.4 |
+| GLM-5                  |     70.4 |   86.0 |         77.8 |
+| DeepSeek V3.2          |     85.0 |   79.9 |         67.8 |
+| GPT-oss 120B           |     90.0 |   80.9 |         62.4 |
+| Nemotron Super         |     79.5 |   72.0 |            — |
+| Llama 4 Maverick       |     80.5 |   69.8 |            — |
 
-MBZUAI's K2 and IBM's larger Granite are not yet ranked at this tier; absence is not disqualifying under [R4](#bms-r4-performance-is-competitive "BMS-R4: Performance Is Competitive").
+> [!NOTE]
+> MBZUAI's K2 and IBM's larger Granite models are not yet ranked at this tier; absence is not disqualifying under [R4](#bms-r4-performance-is-competitive "BMS-R4: Performance Is Competitive").
 
 ## Appendix 2: Training-data Transparency (Supplementary Consideration)
 

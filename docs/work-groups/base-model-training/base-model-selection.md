@@ -110,7 +110,7 @@ For example, it has been suggested that models using a mixture of experts (MoE) 
 ## Selection Notes
 
 The candidate table below records current observations against BMS-R1 through
-BMS-R5 for [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25), with input from the _M0_ model selection ([issue 115](https://github.com/The-AI-Alliance/tapestry/issues/115)). It is not intended to be the full selection policy.
+BMS-R5 for [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25), with input from the _M0_ model selection ([issue 115](https://github.com/The-AI-Alliance/tapestry/issues/115)). This is the long-term candidate-family table, not the M0 ranking, and it is not intended to be the full selection policy.
 
 - Defer selection gates, evaluation dimensions, weights, purpose-specific
   scoring, and tie-breakers to
@@ -160,32 +160,36 @@ Key for icons:
 | Family    | [R1](#bms-r1-weights-are-open "BMS-R1: Weights Are Open") | [R1A](#bms-r1-weights-are-open "BMS-R1A: Zero restrictions on any use") | [R2](#bms-r2-multiple-sizes-are-available "BMS-R2: Multiple Sizes Are Available") | [R2A](#bms-r2-multiple-sizes-are-available "BMS-R2A: All model sizes available are open weight") | [R3](#bms-r3-under-active-development "BMS-R3: Under Active Development") | [R4](#bms-r4-performance-is-competitive "BMS-R4: Performance Is Competitive") | [R5](#bms-r5-can-be-culturally-aligned "BMS-R5: Can Be Culturally Aligned") | Comments |
 | :-------- | :--- | :--- | :--- | :--- | :--- | :--- | :--- | :------- |
 | Apertus   | ✅ | ⚠️ Apache 2.0 weights with AUP and access acknowledgement to review | ✅ | ✅ | ✅ | ✅ | **?** | Built by the Swiss AI Initiative. Relevant because it emphasizes fully open training data, training recipes, transparency, and broad multilingual coverage; verify whether the access gate, AUP, and multimodal/checkpoint variants fit Tapestry participant-control and long-term base-model requirements. |
-| DeepSeek  | ✅ | ✅ | ❌ Large only<a href="#note-1"><sup>1</sup></a> | ✅ | ✅ | ✅ | **?** | Built by DeepSeek in China; possible geopolitical concerns. |
-| Gemma4    | ✅ | ✅ | ⚠️ Smaller sizes only today; will Google expand the size choices? | ❌ Larger Google models are proprietary | ⚠️ Will Google keep releasing updated versions of OW Gemma? | ✅ | **?** | Excellent performance. Will Google continue to develop open-weight models and expand the size options? |
+| DeepSeek  | ✅ | ✅ | ❌ Large only[^1] | ✅ | ✅ | ✅ | **?** | Built by DeepSeek in China; possible geopolitical concerns. |
+| Gemma 4   | ✅ | ✅ | ⚠️ Smaller sizes only today; will Google expand the size choices? | ❌ Larger Google models are proprietary | ⚠️ Will Google keep releasing updated versions of OW Gemma? | ✅ | **?** | Excellent performance. Will Google continue to develop open-weight models and expand the size options? |
 | GLM       | ✅ | ✅ | ❌ Large only | ✅ | ✅ | ✅ | **?** | Built by Z.ai in China; possible geopolitical concerns. |
 | GPT OSS   | ✅ | ✅ | ❌ Limited size choices | ⚠️ Larger models not in this family are proprietary | Will OpenAI keep releasing open-weight versions of GPT OSS? | ✅ | **?** | Excellent performance. Is GPT OSS a "one-shot" release or a longer-term strategy? |
 | Granite   | ✅ | ✅ | ⚠️ Smaller sizes currently | ✅ | ✅ | ⚠️ Larger sizes not available, but coming | **?** | Built by IBM - Good performance and strong data governance, with active development continuing. |
 | K2        | ✅ | ✅ | ✅ | **?** | ✅ | **?** | **?** | Built by MBZUI. Strong on Middle East languages. Future development plans are TBD. |
-| Llama/Muse<a href="#note-2"><sup>2</sup></a> | ✅ | ⚠️ Some limitations on use | ✅ | ⚠️ Largest Llama4 models not OW. Plans for the [new Muse family](https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model) are TBD. | ⚠️ Meta stopped developing Llama, but recently started providing open-weight _Muse_ models. | ✅ | ✅<a href="#note-3"><sup>3</sup></a> - See [here](#feasibility-study-on-cultural-alignment-shift) | Very familiar and widely used, but Muse's future is TBD. |
+| Llama/Muse[^2] | ✅ | ⚠️ Some limitations on use | ✅ | ⚠️ Largest Llama4 models not OW. Plans for the [new Muse family](https://research.meta.ai/blog/introducing-muse-glimmer-open-agentic-model) are TBD. | ⚠️ Meta stopped developing Llama, but recently started providing open-weight _Muse_ models. | ✅ | ✅[^3] - See [here](#feasibility-study-on-cultural-alignment-shift) | Very familiar and widely used, but Muse's future is TBD. |
 | Mistral   | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | **?** | Built in the EU with strong EU alignment. |
 | Nemotron  | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | **?** | Built by NVIDIA. Excellent performance and variety, but can they only be used on NVIDIA hardware? (TBD) |
 | Olmo      | ✅ | ✅ | ⚠️ Smaller model sizes only | ✅ | ⚠️ Turnover at Ai2 makes the future of Olmo unclear | ✅ | **?** | A state-of-the-art research model family, among the most open and transparent available. See in particular [FlexOlmo](https://huggingface.co/allenai/FlexOlmo-7x7B-1T), which has data management features relevant to our needs. However, is the Olmo family otherwise suitable for production use and Tapestry requirements, and will Ai2 continue active development? Even if not, it might be a very good starting point for our own models that are built from scratch. |
 | Qwen      | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | **?** | Built by Alibaba in China; possible geopolitical concerns. |
 
-1. <a id="note-1">When only large-size models are listed as available, often third-party quantized and distilled variants are available, too.
-2. <a id="note-2"> Meta has discontinued the LLama model family, but it has been replaced with the recently-announced Muse family.
-3. <a id="note-3"> So far, we have only tested alignment for Llama3 (see [below](#feasibility-study-on-cultural-alignment-shift)). We don't know of any limitations for the other model candidates listed. However, in general, MoE models are more complicated to post-train than dense models.
+[^1]: When only large-size models are listed as available, third-party quantized and distilled variants may also be available.
 
-### Milestone Zero (M0) Model Choice
+[^2]: Meta has discontinued the Llama model family, while the recently announced Muse family is a separate model line.
 
-For reference (and to retain previous investigative work), here we capture the model choice criteria and analysis that was performed for M0, [issue #115](https://github.com/The-AI-Alliance/tapestry/issues/115) (with some minor updates to the content). M0 did not have exactly the same criteria as the long-term choice criteria discussed above for [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25). For example, a wide range of model sizes was not important for M0; only a small model was needed.
+[^3]: Alignment has only been tested for Llama3 so far. Limitations for the other candidates remain unverified; in general, MoE models may be more complicated to post-train than dense models.
+
+### Milestone Zero (M0) Model Choice: June 2026 Snapshot
+
+This section preserves the M0 proof-of-concept analysis from [issue #115](https://github.com/The-AI-Alliance/tapestry/issues/115) as a June 2026 snapshot. Its rankings describe the M0 experiment only and are not the production-family selection for [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25), which follows the long-term process above. The medals below are historical M0 evidence, not standing recommendations.
+
+M0 did not have exactly the same criteria as the long-term choice criteria discussed above. For example, a wide range of model sizes was not important for M0; only a small model was needed.
 
 The [Kilo AI model list](https://kilo.ai/open-source-models#best-models-ranked) (June 2026), and other community sources were used for information. The following criteria were emphasized:
 
 1. **Well-known, well-characterized, reasonably well-adopted** — not obscure; has community usage, papers, third-party CPT examples, etc.
 2. **Multi-size family** — multiple sizes (especially in the 1B-10B parameter range), so nodes with different resource envelopes can participate.
 3. **Open Source** - As much of the data pipeline, training code, and stack open-sourced as possible.
-3. **Size: 1B–10B params** — below 1B is sub-optimal for meaningful CPT experiments; above 10B pushes POC resource costs without adding to the POC validity.
+4. **Size: 1B–10B params** — below 1B is sub-optimal for meaningful CPT experiments; above 10B pushes POC resource costs without adding to the POC validity.
 
 The best candidates identified had these properties:
 
@@ -198,13 +202,15 @@ The best candidates identified had these properties:
 | **Mistral 7B v0.3** | 7B | **7B** | Mistral AI | Apache 2.0 | ❌ No | ❌ No | ❌ No | ✅ Extensive |
 
 > [!NOTE]
-> 1. **OLMo 2** — Top pick. Only family with fully open weights + training code + data (Dolma) + pipeline (dolma-toolkit). AI2 publishes hyperparams and training configs. 7B fits a single p5.48xlarge comfortably.
-> 1. **Granite 3.x** — IBM publishes training data mix, hyperparams, and eval methodology. Apache 2.0. 3B for resource-constrained nodes; 8B for stronger baseline capability.
-> 1. **Llama 3.2 / 3.1** — Largest CPT recipe library in the field. 8B is the de-facto POC standard. License permits research CPT; verify redistribution rights for consortium weight sharing.
-> 1. **Qwen 2.5** — Apache 2.0; widest size range; strongest multilingual baseline for non-English sovereign nodes.
-> 1. **Mistral 7B** — Single size (weak on criterion 2), but enormous CPT literature makes it easy to find published baselines and community help.
+> - **OLMo 2** — Top pick. Only family with fully open weights + training code + data (Dolma) + pipeline (dolma-toolkit). AI2 publishes hyperparams and training configs. 7B fits a single p5.48xlarge comfortably.
+> - **Granite 3.x** — IBM publishes training data mix, hyperparams, and eval methodology. Apache 2.0. 3B for resource-constrained nodes; 8B for stronger baseline capability.
+> - **Llama 3.2 / 3.1** — Largest CPT recipe library in the field. 8B is the de-facto POC standard. License permits research CPT; verify redistribution rights for consortium weight sharing.
+> - **Qwen 2.5** — Apache 2.0; widest size range; strongest multilingual baseline for non-English sovereign nodes.
+> - **Mistral 7B** — Single size (weak on criterion 2), but enormous CPT literature makes it easy to find published baselines and community help.
 
-#### ✅ Recommended — Pass all three criteria
+#### Historical M0 POC ranking — not a standing recommendation
+
+Llama ranked third for M0 because of its mature CPT and tooling ecosystem; this experimental ranking does not establish it as the long-term family choice.
 
 | Priority | Family | POC Size | Key Reason |
 | :--- | :--- | :--- | :--- |
@@ -214,7 +220,7 @@ The best candidates identified had these properties:
 | **Multilingual bonus** | **Qwen 2.5** | 3B or 7B | Apache 2.0; widest size range; **strongest non-English baseline for sovereign nodes.** |
 
 > [!NOTE]
-> Given the sovereign AI requirement of diverse cultural mapping capability, Qwen 2.5 should be given special consideration.
+> Given the sovereign AI requirement of diverse cultural mapping capability, Qwen 2.5 should be given special consideration in the M0 analysis. This note does not alter the separate long-term selection process.
 
 #### ⚠️ Conditional — Weak on criterion 2 (openness or multi-size)
 
@@ -312,4 +318,6 @@ Ihle also examines Chinese open-weight models alone and finds that they lagged m
 
 ## Appendix 5: Regulatory Exposure
 
-Some organizations that produce open-weight models may be under under US or other international regulatory restrictions. Given Tapestry's mission to support global use of open-weight models, care is required to avoid models with such associations.
+Some organizations that produce open-weight models may be subject to US or other international regulatory restrictions. Relevant sources include the US Bureau of Industry and Security's [Entity List](https://www.bis.gov/entity-list), section 1260H of the [William M. (Mac) Thornberry National Defense Authorization Act for Fiscal Year 2021](https://www.congress.gov/116/plaws/publ283/PLAW-116publ283.pdf), and the National Science Foundation's [Proposal and Award Policies and Procedures Guide](https://new.nsf.gov/policies/pappg).
+
+These materials are inputs to legal, compliance, and governance review. They do not automatically exclude a model family. Any exclusion or restriction must be tied to an applicable requirement, the relevant jurisdiction, the participants and funding involved, and an authoritative source.

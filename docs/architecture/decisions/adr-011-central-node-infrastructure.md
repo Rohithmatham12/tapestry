@@ -21,14 +21,6 @@ The central node is the coordinator described in [TAP-004](adr-004-training-loop
 
 The _AWS Sovereign Node (Design C)_ is used below as a **reference implementation that assumes an AWS node is available** — it is a concrete example, not a hard requirement. The binding content of this ADR is the platform-neutral set of responsibilities, sizing, and governance properties; the AWS service names are one way to satisfy them. The issue observes the node "may not require many GPUs"; this ADR confirms and sharpens that, scoped to the M0 target — one core node plus two sovereign nodes, running a modest open model (≤8B–13B) through the Shared-Base Loop.
 
-### Model-selection boundary
-
-The model assumption here is the **M0 proof-of-concept snapshot recorded in [Issue #115](https://github.com/The-AI-Alliance/tapestry/issues/115)**, not a production-family selection. The OLMo-first M0 ranking is dated evidence for that bring-up. It must be labeled as a dated M0 snapshot wherever it is reproduced; its medals are not standing recommendations.
-
-The long-term family decision remains the separate [Issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25) work governed by [TAP-009](adr-009-goal-derived-base-model-selection.md). The model-selection record must keep M0 and long-term scopes, including version-specific entries such as Gemma 4, distinct. Llama's M0 third-place ranking reflects its POC tooling and CPT ecosystem rather than a long-term recommendation. Any three-note markup in that record must use distinct, working note references rather than collapsing onto `#note-1`.
-
-External compliance and policy references, including Entity List, 1260H, and NSF material where cited, are inputs to later evaluation and governance. Appendix 5 may inform risk review, but it must include authoritative citations and must not be read as an automatic model-selection veto without an applicable requirement and source.
-
 ## Decision
 
 The central node is a **governed coordination role realized as a memory-bound service, not a GPU training cluster, and not a control point.** For this first bring-up, the build should preserve three constraints so the host operator can run the node without unilaterally owning admission or contribution weighting:
@@ -109,7 +101,7 @@ Before changing this ADR from proposed to accepted:
 4. Choose the 70B residency remedy (streaming accumulation vs. out-of-core weighted-mean over safetensors shards) before Design C aggregation is built, so M0 code does not bake in full residency (see Consequences).
 5. File the standalone contribution-weighting-policy ADR (Phase 5, Decision 8) as a follow-up, so this ADR's conservative default does not become de facto policy by inertia. This ADR proposes that decision as a separate workstream; it does not carry it.
 6. Verify the durable-state and telemetry-disable requirements against the substrate actually chosen: if Flower is used, that `LinkState` is backed by a durable store rather than in-memory SQLite, and that `FLWR_TELEMETRY_ENABLED=0` is set on the central node.
-7. Reconcile the model-selection record with this boundary: label M0 as a dated snapshot from Issue #115, keep its version-specific entries separate from the Gemma 4 long-term selection entry, explain Llama's different M0 and long-term statuses, repair the three unique footnote references, and cite Appendix 5's Entity List / 1260H / NSF claims without making them unsupported vetoes.
+7. Note that the central node infrastructure should be agnostic to the models used. However, this needs to be confirmed.
 
 ## Alternatives considered
 
@@ -124,11 +116,9 @@ Before changing this ADR from proposed to accepted:
 This ADR does not:
 
 - Decide the production (Design B/C) coordinator architecture. It sizes the M0 core node for one core plus two sovereign nodes on a ≤13B model; the 70B-class and N-member cases are named but deferred.
-- Treat the M0 model choice as the production-family selection. M0 is a dated proof-of-concept snapshot from Issue #115; the long-term family decision belongs to Issue #25 and TAP-009.
 - Choose the aggregation algorithm. It requires that the algorithm be swappable and sets FedAvg-class as the default; the FedAvg-vs-TIES-vs-DiLoCo choice is left to [TAP-007](adr-007-architecture-comparison.md)'s modular-contribution mandate and future evidence.
 - **Set the contribution-weighting policy.** It builds a governance-configurable, auditable weighting mechanism and a conservative default, but *whether and how* to weight is [TAP-004](adr-004-training-loop.md) open question 2, owned by consortium governance.
 - **Decide who is admitted to the consortium.** Membership admission is a governance decision ([TAP-002](adr-002-consortium-training.md)); this ADR only enforces an admission list technically and requires that enforcement not concentrate admission control in the node operator.
-- Resolve the long-term model-family selection. The M0 model ranking is a dated input from Issue #115; the Gemma version distinction, Llama status distinction, footnote references, and Appendix 5 sourcing are documentation requirements for the model-selection record, not decisions made by this ADR.
 - Specify the eval suite. It places eval on the coordinator and states what it gates, but the capability, cultural-alignment, and safety benchmarks are separate workstreams ([TAP-005](adr-005-sovereign-pipeline.md)).
 - **Mandate a cloud platform.** The AWS bindings are a reference implementation that assumes an AWS node is available; the binding content is the platform-neutral responsibilities, sizing, and governance properties. The central node may be hosted elsewhere.
 - Mandate Flower. It suggests Flower's SuperLink as one viable substrate for the first bring-up, but the decision that binds is the coordinator's *responsibilities, sizing, and governance properties*; a conformant from-scratch coordinator is not precluded.
@@ -145,7 +135,7 @@ This ADR introduces infrastructure claims that touch earlier decisions. It does 
 | Phase 5, Decision 8 (weighting policy) — *referenced but unwritten* | TAP-004 open question 2 and TAP-007 defer the contribution-weighting policy to this decision, but no ADR yet records it | **Flag that this ADR's conservative default (published quality floor, otherwise-equal weighting) is load-bearing until that ADR exists** — if the governance decision is never written, the default becomes de facto policy by inertia. Propose a standalone weighting-policy ADR as the honest home for the question, filed as a separate follow-up rather than carried in this PR |
 | [TAP-007](adr-007-architecture-comparison.md) | Mandates a swappable contribution mechanism | Record that the swap point is realized as the coordinator's aggregation `Strategy`, and that memory-bound sizing assumes averaging-class aggregation — a shift to secure aggregation or DP-on-aggregate would revise the compute envelope |
 | [TAP-008](adr-008-data-sovereignty.md) | Requires auditable enforcement | Record the coordinator-side append-only oversight sink (signed admission, aggregation, and weighting decisions) as the coordinator half of that audit trail |
-| Base-model selection record | Contains both M0 and long-term model-selection material, including versioned model names, rankings, footnotes, and Appendix 5 compliance context | Keep the M0/#115 ranking as a dated snapshot rather than a standing choice; distinguish version-specific M0 entries from the Gemma 4 long-term entry and distinguish M0 Llama ranking from long-term status; use distinct working footnote references; cite Appendix 5 sources and treat them as inputs to review, not unsupported vetoes |
+| [Base-model selection](../../work-groups/base-model-training) | Contains both M0 and long-term model-selection material. | Ensure the infrastructure supports the model choices. |
 | Proposed multi-node infrastructure | Shares the ingress channel and the coordinator-trust concern | Cross-reference: this ADR sizes, secures, and governs the node; the proposed multi-node infrastructure defines the channel and carries the channel-level anti-capture (DG3) mitigation |
 
 ## Consequences

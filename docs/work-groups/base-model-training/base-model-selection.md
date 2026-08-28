@@ -110,7 +110,7 @@ For example, it has been suggested that models using a mixture of experts (MoE) 
 ## Selection Notes
 
 The candidate table below records current observations against BMS-R1 through
-BMS-R5 for [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25), with input from the _M0_ model selection ([issue 115](https://github.com/The-AI-Alliance/tapestry/issues/115)). This is the long-term candidate-family table, not the M0 ranking, and it is not intended to be the full selection policy.
+BMS-R5 for [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25), with input from the _M0_ model selection ([issue 115](https://github.com/The-AI-Alliance/tapestry/issues/115)), which had a smaller set of acceptance criteria that reflected its short-term focus.
 
 - Defer selection gates, evaluation dimensions, weights, purpose-specific
   scoring, and tie-breakers to
@@ -173,21 +173,17 @@ Key for icons:
 | Qwen      | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ | **?** | Built by Alibaba in China; possible geopolitical concerns. |
 
 [^1]: When only large-size models are listed as available, third-party quantized and distilled variants may also be available.
-
 [^2]: Meta has discontinued the Llama model family, while the recently announced Muse family is a separate model line.
-
 [^3]: Alignment has only been tested for Llama3 so far. Limitations for the other candidates remain unverified; in general, MoE models may be more complicated to post-train than dense models.
 
-### Milestone Zero (M0) Model Choice: June 2026 Snapshot
+### Milestone Zero (M0) Model Choice
 
-This section preserves the M0 proof-of-concept analysis from [issue #115](https://github.com/The-AI-Alliance/tapestry/issues/115) as a June 2026 snapshot. Its rankings describe the M0 experiment only and are not the production-family selection for [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25), which follows the long-term process above. The medals below are historical M0 evidence, not standing recommendations.
+This section preserves the M0 model choice from [issue #115](https://github.com/The-AI-Alliance/tapestry/issues/115). Its rankings reflect the short-term focus of M0 and not the longer-term focus of [issue #25](https://github.com/The-AI-Alliance/tapestry/issues/25). For example, a wide range of model sizes was not important for M0; only a small model was needed.
 
-M0 did not have exactly the same criteria as the long-term choice criteria discussed above. For example, a wide range of model sizes was not important for M0; only a small model was needed.
-
-The [Kilo AI model list](https://kilo.ai/open-source-models#best-models-ranked) (June 2026), and other community sources were used for information. The following criteria were emphasized:
+For M0, the [Kilo AI model list](https://kilo.ai/open-source-models#best-models-ranked) (June 2026), and other community sources were used for information. The following criteria were emphasized:
 
 1. **Well-known, well-characterized, reasonably well-adopted** — not obscure; has community usage, papers, third-party CPT examples, etc.
-2. **Multi-size family** — multiple sizes (especially in the 1B-10B parameter range), so nodes with different resource envelopes can participate.
+2. **Multi-size family** — multiple sizes (especially in the 1B-10B parameter range), so nodes with different resource capacities and budgets can potentially participate.
 3. **Open Source** - As much of the data pipeline, training code, and stack open-sourced as possible.
 4. **Size: 1B–10B params** — below 1B is sub-optimal for meaningful CPT experiments; above 10B pushes POC resource costs without adding to the POC validity.
 
@@ -202,15 +198,13 @@ The best candidates identified had these properties:
 | **Mistral 7B v0.3** | 7B | **7B** | Mistral AI | Apache 2.0 | ❌ No | ❌ No | ❌ No | ✅ Extensive |
 
 > [!NOTE]
-> - **OLMo 2** — Top pick. Only family with fully open weights + training code + data (Dolma) + pipeline (dolma-toolkit). AI2 publishes hyperparams and training configs. 7B fits a single p5.48xlarge comfortably.
-> - **Granite 3.x** — IBM publishes training data mix, hyperparams, and eval methodology. Apache 2.0. 3B for resource-constrained nodes; 8B for stronger baseline capability.
-> - **Llama 3.2 / 3.1** — Largest CPT recipe library in the field. 8B is the de-facto POC standard. License permits research CPT; verify redistribution rights for consortium weight sharing.
-> - **Qwen 2.5** — Apache 2.0; widest size range; strongest multilingual baseline for non-English sovereign nodes.
-> - **Mistral 7B** — Single size (weak on criterion 2), but enormous CPT literature makes it easy to find published baselines and community help.
+> 1. **OLMo 2** — Top pick. Only family with fully open weights + training code + data (Dolma) + pipeline (dolma-toolkit). AI2 publishes hyperparams and training configs. 7B fits a single p5.48xlarge comfortably.
+> 1. **Granite 3.x** — IBM publishes training data mix, hyperparams, and eval methodology. Apache 2.0. 3B for resource-constrained nodes; 8B for stronger baseline capability.
+> 1. **Llama 3.2 / 3.1** — Largest CPT recipe library in the field. 8B is the de-facto POC standard. License permits research CPT; verify redistribution rights for consortium weight sharing.
+> 1. **Qwen 2.5** — Apache 2.0; widest size range; strongest multilingual baseline for non-English sovereign nodes.
+> 1. **Mistral 7B** — Single size (weak on criterion 2), but enormous CPT literature makes it easy to find published baselines and community help.
 
-#### Historical M0 POC ranking — not a standing recommendation
-
-Llama ranked third for M0 because of its mature CPT and tooling ecosystem; this experimental ranking does not establish it as the long-term family choice.
+#### M0 Model Ranking
 
 | Priority | Family | POC Size | Key Reason |
 | :--- | :--- | :--- | :--- |
@@ -222,7 +216,7 @@ Llama ranked third for M0 because of its mature CPT and tooling ecosystem; this 
 > [!NOTE]
 > Given the sovereign AI requirement of diverse cultural mapping capability, Qwen 2.5 should be given special consideration in the M0 analysis. This note does not alter the separate long-term selection process.
 
-#### ⚠️ Conditional — Weak on criterion 2 (openness or multi-size)
+The following models were on criterion 2 (openness or multi-size):
 
 | Model Family | Sizes | Best POC Size | Lab | License | Code Open? | Data Open? | Gap |
 | :---| :---| :---| :---| :---| :---| :---| :---|
@@ -230,7 +224,7 @@ Llama ranked third for M0 because of its mature CPT and tooling ecosystem; this 
 | **Nemotron (Nano/Super)** | 8B, 120B | 8B Nano | NVIDIA | NVIDIA Nemotron Open | ❌ No | ❌ No | Hybrid Mamba arch may complicate CPT tooling. Custom license — verify. |
 | **SmolLM2** | 135M, 360M, 1.7B | 1.7B | HuggingFace | Apache 2.0 | ✅ Yes | ✅ Yes | All sizes sub-2B — below useful minimum per criterion 3. Hello-world iteration only. |
 
-#### ❌ Filtered out
+The following models were filtered out:
 
 | Model | Reason |
 | :---- | :----- |

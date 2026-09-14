@@ -37,10 +37,18 @@ class EvaluationPlanDecision:
 
 @dataclass(frozen=True)
 class EvaluationPlan:
-    """A versioned, runner-neutral plan for benchmark coverage."""
+    """
+    A versioned, runner-neutral plan for benchmark coverage.
+
+    Implementation Note: required_kinds is declared with
+    `field(default_factory=lambda: DEFAULT_REQUIRED_KINDS)`
+    to initialize with the default list. If you try
+    `field(default=DEFAULT_REQUIRED_KINDS)`, you get errors
+    when pytest tries to load this class!
+    """
 
     specs: list[BenchmarkSpec] = field(default_factory=list)
-    required_kinds: list[BenchmarkKind] = DEFAULT_REQUIRED_KINDS
+    required_kinds: list[BenchmarkKind] = field(default_factory=lambda: DEFAULT_REQUIRED_KINDS)
 
     def __post_init__(self) -> None:
         if not self.specs:

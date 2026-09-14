@@ -112,12 +112,12 @@ class EvaluationResult:
 class EvaluationBundle:
     """Versioned runner output for a benchmark configuration."""
 
-    results: list[EvaluationResult]
     config_hash: str
     model_artifact_id: str
     runner_id: str
     runner_version: str
     schema_version: str = SCHEMA_VERSION
+    results: list[EvaluationResult] = field(default_factory=list)
     metadata: Mapping[str, str] = field(default_factory=dict)
 
     def __post_init__(self) -> None:
@@ -148,7 +148,7 @@ class GateDecision:
     """Overall go/no-go result for an evaluation gate."""
 
     passed: bool
-    findings: list[GateFinding]
+    findings: list[GateFinding] = field(default_factory=list)
 
     @property
     def blocking_findings(self) -> list[GateFinding]:

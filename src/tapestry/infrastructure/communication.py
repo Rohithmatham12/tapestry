@@ -51,7 +51,7 @@ class CommunicationPlan:
     node_supervisor_with_backoff: bool
     membership_controls: bool
     straggler_policy: str | None = None
-    notes: tuple[str, ...] = field(default_factory=tuple)
+    notes: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "topology", CommunicationTopology(self.topology))

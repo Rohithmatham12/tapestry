@@ -55,37 +55,31 @@ class DataToolAssessment:
 
     tool_name: str
     supported_capabilities: frozenset[DataPipelineCapability]
-    viable_long_term: bool | None = None
-    notes: tuple[str, ...] = field(default_factory=tuple)
+    viable_long_term: bool
+    notes: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         if not self.tool_name.strip():
             raise ValueError("tool_name must not be empty")
-        object.__setattr__(
-            self,
-            "supported_capabilities",
-            frozenset(DataPipelineCapability(capability) for capability in self.supported_capabilities),
-        )
-        object.__setattr__(self, "notes", tuple(self.notes))
 
     @property
-    def missing_capabilities(self) -> tuple[DataPipelineCapability, ...]:
+    def missing_capabilities(self) -> list[DataPipelineCapability]:
         """Capabilities still missing for data-pipeline readiness."""
-        return tuple(
+        return [
             capability
             for capability in sorted(REQUIRED_DATA_CAPABILITIES, key=lambda item: item.value)
             if capability not in self.supported_capabilities
-        )
+        ]
 
-    def findings(self) -> tuple[DataCapabilityFinding, ...]:
+    def findings(self) -> list[DataCapabilityFinding]:
         """Return capability gaps as reviewer-readable findings."""
-        return tuple(
+        return [
             DataCapabilityFinding(
                 capability=capability,
                 message=f"{self.tool_name} has not shown required capability: {capability.value}",
             )
             for capability in self.missing_capabilities
-        )
+        ]
 
 
 def allowed_modes_for_shared_training() -> frozenset[DataParticipationMode]:

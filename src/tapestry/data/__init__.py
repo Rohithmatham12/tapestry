@@ -7,7 +7,6 @@ from tapestry.data.management import (
     DataPipelineCapability,
     DataToolAssessment,
     allowed_modes_for_shared_training,
-    ods_assessment_questions,
 )
 
 __all__ = [
@@ -17,5 +16,4 @@ __all__ = [
     "DataPipelineCapability",
     "DataToolAssessment",
     "allowed_modes_for_shared_training",
-    "ods_assessment_questions",
 ]

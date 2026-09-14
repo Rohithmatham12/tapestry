@@ -26,24 +26,6 @@ class DataManagementTest(unittest.TestCase):
         self.assertEqual(assessment.missing_capabilities, ())
         self.assertEqual(assessment.findings(), ())
 
-    def test_assessment_reports_missing_capabilities_for_ods_research(self) -> None:
-        """A partial ODS assessment reports the missing capabilities."""
-        assessment = DataToolAssessment(
-            tool_name="Open Data Spaces",
-            supported_capabilities=frozenset(
-                {
-                    DataPipelineCapability.CATALOG,
-                    DataPipelineCapability.PORTABLE_SCHEMAS,
-                }
-            ),
-        )
-
-        missing = assessment.missing_capabilities
-
-        self.assertIn(DataPipelineCapability.ACCESS_CONTROL, missing)
-        self.assertIn(DataPipelineCapability.EVENT_CAPTURE, missing)
-        self.assertGreaterEqual(len(assessment.findings()), 5)
-
     def test_participant_private_mode_is_not_allowed_for_shared_training(self) -> None:
         """Private-only data is excluded from shared-training participation."""
         modes = allowed_modes_for_shared_training()

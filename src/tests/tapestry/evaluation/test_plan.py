@@ -1,4 +1,4 @@
-"""Tests for M1 evaluation-plan coverage helpers."""
+"""Tests for evaluation-plan coverage helpers."""
 
 from __future__ import annotations
 
@@ -30,9 +30,9 @@ def _spec(benchmark_id: str, kind: BenchmarkKind, required: bool = True) -> Benc
 
 
 class EvaluationPlanTest(unittest.TestCase):
-    """Coverage behavior for M1 evaluation planning."""
+    """Coverage behavior for evaluation planning."""
 
-    def test_plan_is_ready_when_required_m1_axes_are_present(self) -> None:
+    def test_plan_is_ready_when_required_axes_are_present(self) -> None:
         """A plan is ready when capability, alignment, and safety are covered."""
         plan = EvaluationPlan(
             (

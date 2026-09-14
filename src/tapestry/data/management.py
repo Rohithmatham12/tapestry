@@ -1,4 +1,4 @@
-"""Data-management capability checks for M1 planning."""
+"""Data-management capability checks for required capabilities."""
 
 from __future__ import annotations
 
@@ -69,8 +69,8 @@ class DataToolAssessment:
         object.__setattr__(self, "notes", tuple(self.notes))
 
     @property
-    def missing_m1_capabilities(self) -> tuple[DataPipelineCapability, ...]:
-        """Capabilities still missing for M1 data-pipeline readiness."""
+    def missing_capabilities(self) -> tuple[DataPipelineCapability, ...]:
+        """Capabilities still missing for data-pipeline readiness."""
         return tuple(
             capability
             for capability in sorted(REQUIRED_DATA_CAPABILITIES, key=lambda item: item.value)
@@ -82,21 +82,10 @@ class DataToolAssessment:
         return tuple(
             DataCapabilityFinding(
                 capability=capability,
-                message=f"{self.tool_name} has not shown M1 capability: {capability.value}",
+                message=f"{self.tool_name} has not shown required capability: {capability.value}",
             )
-            for capability in self.missing_m1_capabilities
+            for capability in self.missing_capabilities
         )
-
-
-def ods_assessment_questions() -> tuple[str, ...]:
-    """Questions to answer before adopting Open Data Spaces for Tapestry."""
-    return (
-        "Is the project active enough for Tapestry to depend on it?",
-        "Can it stream large training artifacts without unacceptable overhead?",
-        "Which governance controls are native and which require extensions?",
-        "Can participant-local datasets be represented by manifests, hashes, or attestations?",
-        "Can visibility-tiered evidence be exported for evaluation and certification gates?",
-    )
 
 
 def allowed_modes_for_shared_training() -> frozenset[DataParticipationMode]:

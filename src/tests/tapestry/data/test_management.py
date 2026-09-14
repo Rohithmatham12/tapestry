@@ -10,7 +10,6 @@ from tapestry.data import (
     DataPipelineCapability,
     DataToolAssessment,
     allowed_modes_for_shared_training,
-    ods_assessment_questions,
 )
 
 
@@ -24,11 +23,11 @@ class DataManagementTest(unittest.TestCase):
             supported_capabilities=REQUIRED_DATA_CAPABILITIES,
         )
 
-        self.assertEqual(assessment.missing_m1_capabilities, ())
+        self.assertEqual(assessment.missing_capabilities, ())
         self.assertEqual(assessment.findings(), ())
 
     def test_assessment_reports_missing_capabilities_for_ods_research(self) -> None:
-        """A partial ODS assessment reports the missing M1 capabilities."""
+        """A partial ODS assessment reports the missing capabilities."""
         assessment = DataToolAssessment(
             tool_name="Open Data Spaces",
             supported_capabilities=frozenset(
@@ -39,19 +38,11 @@ class DataManagementTest(unittest.TestCase):
             ),
         )
 
-        missing = assessment.missing_m1_capabilities
+        missing = assessment.missing_capabilities
 
         self.assertIn(DataPipelineCapability.ACCESS_CONTROL, missing)
         self.assertIn(DataPipelineCapability.EVENT_CAPTURE, missing)
         self.assertGreaterEqual(len(assessment.findings()), 5)
-
-    def test_ods_questions_cover_viability_and_large_artifact_streaming(self) -> None:
-        """ODS assessment prompts cover viability, artifacts, and locality."""
-        questions = " ".join(ods_assessment_questions())
-
-        self.assertIn("active enough", questions)
-        self.assertIn("stream large training artifacts", questions)
-        self.assertIn("participant-local datasets", questions)
 
     def test_participant_private_mode_is_not_allowed_for_shared_training(self) -> None:
         """Private-only data is excluded from shared-training participation."""

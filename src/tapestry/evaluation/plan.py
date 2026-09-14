@@ -1,8 +1,8 @@
-"""Evaluation-plan coverage helpers for M1 readiness.
+"""Evaluation-plan coverage helpers for requirements readiness.
 
 The project already has gate logic that can decide whether a result bundle
 passes. This module adds the planning layer above it: a compact way to check
-whether a proposed evaluation bundle covers the minimum axes discussed for M1.
+whether a proposed evaluation bundle covers the current minimum requirements.
 """
 
 from __future__ import annotations
@@ -37,7 +37,7 @@ class EvaluationPlanDecision:
 
 @dataclass(frozen=True)
 class EvaluationPlan:
-    """A versioned, runner-neutral plan for M1 benchmark coverage."""
+    """A versioned, runner-neutral plan for benchmark coverage."""
 
     specs: tuple[BenchmarkSpec, ...]
     required_kinds: tuple[BenchmarkKind, ...] = DEFAULT_REQUIRED_KINDS
@@ -68,7 +68,7 @@ class EvaluationPlan:
         findings = tuple(
             EvaluationPlanFinding(
                 kind=kind,
-                message=f"required M1 evaluation axis {kind.value} is missing",
+                message=f"required evaluation kind {kind.value} is missing",
             )
             for kind in self.missing_required_kinds
         )

@@ -14,7 +14,7 @@ from tapestry.infrastructure import (
 
 
 class CommunicationPlanTest(unittest.TestCase):
-    """M1 communication-readiness checks."""
+    """Communication-readiness checks."""
 
     def test_flower_style_hub_and_spoke_plan_has_no_blockers(self) -> None:
         """A managed hub-and-spoke transport plan has no readiness findings."""

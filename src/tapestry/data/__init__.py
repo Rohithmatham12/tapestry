@@ -1,7 +1,7 @@
 """Data governance and management helpers."""
 
 from tapestry.data.management import (
-    M1_REQUIRED_DATA_CAPABILITIES,
+    REQUIRED_DATA_CAPABILITIES,
     DataCapabilityFinding,
     DataParticipationMode,
     DataPipelineCapability,
@@ -11,7 +11,7 @@ from tapestry.data.management import (
 )
 
 __all__ = [
-    "M1_REQUIRED_DATA_CAPABILITIES",
+    "REQUIRED_DATA_CAPABILITIES",
     "DataCapabilityFinding",
     "DataParticipationMode",
     "DataPipelineCapability",

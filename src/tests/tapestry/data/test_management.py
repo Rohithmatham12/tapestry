@@ -5,7 +5,7 @@ from __future__ import annotations
 import unittest
 
 from tapestry.data import (
-    M1_REQUIRED_DATA_CAPABILITIES,
+    REQUIRED_DATA_CAPABILITIES,
     DataParticipationMode,
     DataPipelineCapability,
     DataToolAssessment,
@@ -21,7 +21,7 @@ class DataManagementTest(unittest.TestCase):
         """A tool supporting all required capabilities has no findings."""
         assessment = DataToolAssessment(
             tool_name="candidate-catalog",
-            supported_capabilities=M1_REQUIRED_DATA_CAPABILITIES,
+            supported_capabilities=REQUIRED_DATA_CAPABILITIES,
         )
 
         self.assertEqual(assessment.missing_m1_capabilities, ())

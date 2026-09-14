@@ -28,7 +28,7 @@ class DataPipelineCapability(str, Enum):
     STREAMING_LARGE_ARTIFACTS = "streaming-large-artifacts"
 
 
-M1_REQUIRED_DATA_CAPABILITIES: frozenset[DataPipelineCapability] = frozenset(
+REQUIRED_DATA_CAPABILITIES: frozenset[DataPipelineCapability] = frozenset(
     {
         DataPipelineCapability.CATALOG,
         DataPipelineCapability.POINTER_BASED_DATASETS,
@@ -73,7 +73,7 @@ class DataToolAssessment:
         """Capabilities still missing for M1 data-pipeline readiness."""
         return tuple(
             capability
-            for capability in sorted(M1_REQUIRED_DATA_CAPABILITIES, key=lambda item: item.value)
+            for capability in sorted(REQUIRED_DATA_CAPABILITIES, key=lambda item: item.value)
             if capability not in self.supported_capabilities
         )
 

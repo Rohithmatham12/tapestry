@@ -12,7 +12,7 @@ from dataclasses import dataclass
 
 from tapestry.evaluation.gates import BenchmarkKind, BenchmarkSpec, EvaluationGate
 
-DEFAULT_M1_REQUIRED_KINDS: tuple[BenchmarkKind, ...] = (
+DEFAULT_REQUIRED_KINDS: tuple[BenchmarkKind, ...] = (
     BenchmarkKind.CAPABILITY,
     BenchmarkKind.CULTURAL_ALIGNMENT,
     BenchmarkKind.SAFETY,
@@ -40,7 +40,7 @@ class EvaluationPlan:
     """A versioned, runner-neutral plan for M1 benchmark coverage."""
 
     specs: tuple[BenchmarkSpec, ...]
-    required_kinds: tuple[BenchmarkKind, ...] = DEFAULT_M1_REQUIRED_KINDS
+    required_kinds: tuple[BenchmarkKind, ...] = DEFAULT_REQUIRED_KINDS
 
     def __post_init__(self) -> None:
         if not self.specs:

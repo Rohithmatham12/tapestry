@@ -41,7 +41,7 @@ class CommunicationFinding:
 @dataclass(frozen=True)
 # pylint: disable=too-many-instance-attributes
 class CommunicationPlan:
-    """A small, implementation-neutral description of M1 node communication."""
+    """A small, implementation-neutral description of node communication."""
 
     topology: CommunicationTopology | str
     protocol: TransportProtocol | str
@@ -51,7 +51,7 @@ class CommunicationPlan:
     node_supervisor_with_backoff: bool
     membership_controls: bool
     straggler_policy: str | None = None
-    notes: tuple[str, ...] = field(default_factory=tuple)
+    notes: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         object.__setattr__(self, "topology", CommunicationTopology(self.topology))
@@ -67,7 +67,7 @@ class CommunicationPlan:
 
 
 def assess_communication_plan(plan: CommunicationPlan) -> tuple[CommunicationFinding, ...]:
-    """Assess a communication plan against M1 consortium-readiness concerns."""
+    """Assess a communication plan against consortium-readiness concerns."""
     findings: list[CommunicationFinding] = []
 
     if plan.topology is CommunicationTopology.PEER_TO_PEER:
@@ -102,7 +102,7 @@ def assess_communication_plan(plan: CommunicationPlan) -> tuple[CommunicationFin
             CommunicationFinding(
                 "COMM-STATE",
                 CommunicationSeverity.WARNING,
-                "coordinator state persistence should be verified before multi-day M1 runs",
+                "coordinator state persistence should be verified before multi-day runs",
             )
         )
 
@@ -120,7 +120,7 @@ def assess_communication_plan(plan: CommunicationPlan) -> tuple[CommunicationFin
             CommunicationFinding(
                 "COMM-MEMBERSHIP",
                 CommunicationSeverity.WARNING,
-                "M1 governance needs explicit node join, leave, and eject controls",
+                "Governance needs explicit node join, leave, and eject controls",
             )
         )
 

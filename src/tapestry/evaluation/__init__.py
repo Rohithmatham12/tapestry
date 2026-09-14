@@ -13,7 +13,7 @@ from tapestry.evaluation.gates import (
     benchmark_config_hash,
 )
 from tapestry.evaluation.plan import (
-    DEFAULT_M1_REQUIRED_KINDS,
+    DEFAULT_REQUIRED_KINDS,
     EvaluationPlan,
     EvaluationPlanDecision,
     EvaluationPlanFinding,
@@ -21,7 +21,7 @@ from tapestry.evaluation.plan import (
 )
 
 __all__ = [
-    "DEFAULT_M1_REQUIRED_KINDS",
+    "DEFAULT_REQUIRED_KINDS",
     "BenchmarkConfig",
     "BenchmarkKind",
     "BenchmarkSpec",

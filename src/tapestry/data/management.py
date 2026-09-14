@@ -1,4 +1,4 @@
-"""Data-management capability checks for M1 planning."""
+"""Data-management capability checks for required capabilities."""
 
 from __future__ import annotations
 
@@ -28,7 +28,7 @@ class DataPipelineCapability(str, Enum):
     STREAMING_LARGE_ARTIFACTS = "streaming-large-artifacts"
 
 
-M1_REQUIRED_DATA_CAPABILITIES: frozenset[DataPipelineCapability] = frozenset(
+REQUIRED_DATA_CAPABILITIES: frozenset[DataPipelineCapability] = frozenset(
     {
         DataPipelineCapability.CATALOG,
         DataPipelineCapability.POINTER_BASED_DATASETS,
@@ -55,48 +55,31 @@ class DataToolAssessment:
 
     tool_name: str
     supported_capabilities: frozenset[DataPipelineCapability]
-    viable_long_term: bool | None = None
-    notes: tuple[str, ...] = field(default_factory=tuple)
+    viable_long_term: bool
+    notes: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
         if not self.tool_name.strip():
             raise ValueError("tool_name must not be empty")
-        object.__setattr__(
-            self,
-            "supported_capabilities",
-            frozenset(DataPipelineCapability(capability) for capability in self.supported_capabilities),
-        )
-        object.__setattr__(self, "notes", tuple(self.notes))
 
     @property
-    def missing_m1_capabilities(self) -> tuple[DataPipelineCapability, ...]:
-        """Capabilities still missing for M1 data-pipeline readiness."""
-        return tuple(
+    def missing_capabilities(self) -> list[DataPipelineCapability]:
+        """Capabilities still missing for data-pipeline readiness."""
+        return [
             capability
-            for capability in sorted(M1_REQUIRED_DATA_CAPABILITIES, key=lambda item: item.value)
+            for capability in sorted(REQUIRED_DATA_CAPABILITIES, key=lambda item: item.value)
             if capability not in self.supported_capabilities
-        )
+        ]
 
-    def findings(self) -> tuple[DataCapabilityFinding, ...]:
+    def findings(self) -> list[DataCapabilityFinding]:
         """Return capability gaps as reviewer-readable findings."""
-        return tuple(
+        return [
             DataCapabilityFinding(
                 capability=capability,
-                message=f"{self.tool_name} has not shown M1 capability: {capability.value}",
+                message=f"{self.tool_name} has not shown required capability: {capability.value}",
             )
-            for capability in self.missing_m1_capabilities
-        )
-
-
-def ods_assessment_questions() -> tuple[str, ...]:
-    """Questions to answer before adopting Open Data Spaces for Tapestry."""
-    return (
-        "Is the project active enough for Tapestry to depend on it?",
-        "Can it stream large training artifacts without unacceptable overhead?",
-        "Which governance controls are native and which require extensions?",
-        "Can participant-local datasets be represented by manifests, hashes, or attestations?",
-        "Can visibility-tiered evidence be exported for evaluation and certification gates?",
-    )
+            for capability in self.missing_capabilities
+        ]
 
 
 def allowed_modes_for_shared_training() -> frozenset[DataParticipationMode]:

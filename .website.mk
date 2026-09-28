@@ -52,7 +52,7 @@ ${CODE}${_END}                        # Tip: ${CODE}make JEKYLL_PORT=8000 view-l
 ${CODE}make setup-jekyll${_END}       # Install Jekyll. Make sure Ruby is installed.
 ${CODE}${_END}                        # (Only needed for local viewing of the document.)
 ${CODE}${_END}                        # Uses Ruby 3 automatically when Homebrew has ruby@3.x installed.
-${CODE}${_END}                        # Override with ${CODE}RUBY_BIN=/path/to/ruby make view-local${_END} if needed.
+${CODE}${_END}                        # Override with ${CODE}make RUBY_BIN=/path/to/ruby view-local${_END} if needed.
 ${CODE}make run-jekyll${_END}         # Used by ${CODE}view-local${_END}; assumes ${CODE}setup-jekyll${_END} is already "built".
 ${CODE}${_END}                        # Tip: Build this target instead of ${CODE}view-local${_END} to avoid repeating ${CODE}setup-jekyll${_END}.
 ${CODE}${_END}                        # Tip: ${CODE}make JEKYLL_PORT=8000 run-jekyll${_END} uses port 8000 instead of 4000!
@@ -69,7 +69,7 @@ print-info-website::
 	@echo "  ${DARK_GREEN}Website files:${_END}      ${CODE}${WEBSITE_DIR}${_END}"
 	@echo "  ${DARK_GREEN}SITE_DIR:${_END}           ${CODE}${SITE_DIR}${_END}"
 	@echo "  ${DARK_GREEN}JEKYLL_PORT:${_END}        ${CODE}${JEKYLL_PORT}${_END} (when viewing locally: ${CODE}http://localhost:${JEKYLL_PORT}${_END})"
-	@echo "  ${DARK_GREEN}RUBY_BIN:${_END}            ${CODE}${RUBY_BIN}${_END}"
+	@echo "  ${DARK_GREEN}RUBY_BIN:${_END}           ${CODE}${RUBY_BIN}${_END}"
 
 .PHONY: all-website clean-website view-pages view-local
 .PHONY: view-pages view-local setup-jekyll run-jekyll run-jekyll-message
@@ -120,7 +120,7 @@ ruby-version-check:
 	case "$${ruby_version}" in \
 	  3.*) ;; \
 	  *) echo "${ERROR}Ruby 3 is required for github-pages, but ${RUBY_BIN} is Ruby $${ruby_version}.${_END}"; \
-	     echo "Install it with ${CODE}brew install ruby@3.3${_END}, then retry ${CODE}make view-local${_END}."; \
+	     echo "Install it with ${CODE}brew install ruby@3.3${_END}, then retry the ${CODE}make${_END} command."; \
 	     exit 1;; \
 	esac
 
